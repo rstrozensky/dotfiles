@@ -1,0 +1,22 @@
+" Tabs & spaces: https://stackoverflow.com/a/234578
+filetype indent on
+set tabstop=4 " show existing tab with 4 spaces width
+set shiftwidth=4 " when indenting with '>', use 4 spaces width
+set expandtab " On pressing tab, insert 4 spaces
+
+""" Highlighting
+set hlsearch
+set list
+set listchars=eol:¬,tab:▸·,space:·,trail:×,precedes:<,extends:>,nbsp:⎵
+highlight ExtraWhitespace term=underline ctermfg=1 guifg=Magenta
+call matchadd('ExtraWhitespace', '\t') " Tabs
+call matchadd('ExtraWhitespace', '\s\+$') " Trailing spaces
+" Todo, Fixme
+highlight Fixme term=reverse cterm=bold ctermfg=7 ctermbg=1 guifg=White guibg=Red
+call matchadd('Todo', 'TODO')
+call matchadd('Fixme', 'FIXME')
+" ColorColumn
+highlight ColorColumn ctermbg=darkcyan
+call matchadd('ColorColumn', '\%81v')
+call matchadd('ColorColumn', '\%121v')
+highlight Comment term=bold cterm=bold ctermfg=4 gui=bold guifg=DarkCyan

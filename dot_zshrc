@@ -1,0 +1,70 @@
+
+HISTFILE=~/.zsh_history
+HISTSIZE=1000
+SAVEHIST=999
+# setopt autocd
+# bindkey -e
+
+
+zstyle :compinstall filename '/home/rstrozensky/.zshrc'
+
+autoload -Uz compinit
+compinit
+
+export PATH=$PATH:/home/rstrozensky/.local/bin
+OMP_THEME="~/.cache/oh-my-posh/themes/custom/pure.omp.json"
+eval "$(oh-my-posh init zsh --config "${OMP_THEME}")"
+
+# >>> RS Shell Utils Import >>>
+_RS_SHELL_UTILS_PATH="$HOME/wa/utils/rs-shell-utils"
+if [ -d $_RS_SHELL_UTILS_PATH ]; then
+    for sh_file in $_RS_SHELL_UTILS_PATH/*.sh; do
+        source $sh_file
+    done
+fi
+# <<< RS Shell Utils Import <<<
+
+## History command configuration
+setopt extended_history       # record timestamp of command in HISTFILE
+setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_dups       # ignore duplicated commands history list
+setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command with history expansion to user before running it
+setopt share_history          # share command history data
+
+bindkey '\eOA' history-beginning-search-backward
+bindkey '\eOB' history-beginning-search-forward
+
+## TODO: try these settings
+#autoload -U up-line-or-beginning-search
+#autoload -U down-line-or-beginning-search
+#zle -N up-line-or-beginning-search
+#zle -N down-line-or-beginning-search
+#bindkey "^[[A" up-line-or-beginning-search
+#bindkey "^[[B" down-line-or-beginning-search
+
+autoload -U compinit && compinit
+## Case insensitive completion: https://superuser.com/a/1092328
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+### Plugins
+# You Should Use: https://github.com/MichaelAquilina/zsh-you-should-use.git
+source "$HOME/.local/opt/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh"
+
+# ZSH Command Not Found: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/command-not-found
+source "$HOME/.local/opt/zsh/plugins/command-not-found/command-not-found.plugin.zsh"
+
+# ZSH Syntax Highlighting: https://github.com/zsh-users/zsh-syntax-highlighting.git
+## Config 
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+ZSH_HIGHLIGHT_STYLES[alias]='fg=green,underline'
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[assign]='fg=cyan'
+## This "must be sourced after all custom widgets have been created"
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
