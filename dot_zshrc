@@ -12,7 +12,8 @@ autoload -Uz compinit
 compinit
 
 export PATH=$PATH:/home/rstrozensky/.local/bin
-OMP_THEME="~/.cache/oh-my-posh/themes/custom/pure.omp.json"
+export PATH=$PATH:/snap/bin
+OMP_THEME="~/.config/oh-my-posh/pure.omp.json"
 eval "$(oh-my-posh init zsh --config "${OMP_THEME}")"
 
 # >>> RS Shell Utils Import >>>
